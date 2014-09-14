@@ -6,8 +6,8 @@ var assert = require("assert"),
     mongojs = require("mongojs"),
     db = mongojs.connect("logDB", ["discovery"]);
 
-var repoUrl = "gitlab@git.bskyb.com:sea-microservices/microservices-testservice.git";
-var serviceName = "sea-microservices/microservices-testservice";
+var repoUrl = "https://github.com/Micromuon/testservice.git";
+var serviceName = "Micromuon/testservice";
 var port;
 var start;
 
@@ -15,7 +15,7 @@ before(function(done) {
     this.timeout(30000);
     start = require("../start.js");
     pubsubChannel.on("deployer:started", function(data) {
-        if (data.name == "sea-microservices/microservices-logging") {
+        if (data.name == "Micromuon/logging") {
             setTimeout(function() {
                 done();
             }, 1000);
@@ -28,7 +28,7 @@ describe("integration testing :", function() {
     it("starts deployer and core microservices using start up script", function(done) {
         this.timeout(20000);
         pubsubChannel.on("deployer:started", function(data) {
-            if (data.name == "sea-microservices/microservices-wrapperapi") {
+            if (data.name == "Micromuon/apiwrapper") {
                 done();
             }
         });

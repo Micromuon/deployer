@@ -20,7 +20,7 @@ pubsubChannel.on("deployer:deploy", function(data) {
     process.chdir(deployerProcess);
 
     // Use "owner/name" format as folder for storage
-    var folderName = data.url.split(".com")[1];
+    var folderName = data.url.split(".com/")[1];
     // Remove .git from end
     folderName = folderName.substr(0, folderName.length-4);
 
