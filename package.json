@@ -1,0 +1,22 @@
+{
+    "name": "deployer",
+    "description": "Deploys Services",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node deployer",
+        "test": "./node_modules/mocha/bin/mocha test/testDeployer.js -R xunit | grep \"<\" > test-reports.xml"
+    },
+    "dependencies": {
+        "gift": "*",
+        "rimraf": "*",
+        "node-redis-pubsub-fork": "*",
+        "ps-tree": "*",
+        "portfinder": "*"
+    },
+    "devDependencies": {
+        "superagent": "*",
+        "mocha": "*",
+        "mongojs": "*"
+    }
+}
