@@ -12,10 +12,10 @@ var port;
 var start;
 
 before(function(done) {
-    this.timeout(30000);
+    this.timeout(60000);
     start = require("../start.js");
     pubsubChannel.on("deployer:started", function(data) {
-        if (data.name == "Micromuon/logging") {
+        if (data.name == "Micromuon/apiwrapper") {
             setTimeout(function() {
                 done();
             }, 1000);
