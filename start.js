@@ -53,11 +53,13 @@ pubsubChannel.on("deployer:startResult", function(data) {
     if (data.failed) {
         console.log("ERROR: Could not start " + data.name);
     } else {
+        console.log("started: " + data.name);
         if (data.name == "Micromuon/discovery") {
             // Save this data so we can kill discovery itself later on when exiting
             discoveryInfo = data;
+        } else if (data.name == "Micromuon/apiwrapper") {
+            console.log("** Wrapper API running, can now run gui **");
         }
-        console.log("started: " + data.name);
     }
 });
 
