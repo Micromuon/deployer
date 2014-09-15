@@ -30,35 +30,35 @@ pubsubChannel.on("deployer:deployResult", function(data) {
             pubsubChannel.emit("deployer:start", {name: data.name});
         }
 
-+        // Deploy next service in sequence
-+        if (data.name == "Micromuon/discovery") {
-+            pubsubChannel.emit("deployer:deploy", { url: loggingUrl });
-+            console.log("Logging deploying");
-+        } else if (data.name == "Micromuon/logging") {
-+            pubsubChannel.emit("deployer:deploy", { url: healthcheckUrl });
-+            console.log("Healthcheck deploying");
-+        } else if (data.name == "Micromuon/healthchecker") {
-+            pubsubChannel.emit("deployer:deploy", { url: alertingUrl });
-+            console.log("Alerting deploying");
-+        } else if (data.name == "Micromuon/alerter") {
-+            pubsubChannel.emit("deployer:deploy", { url: wrapperUrl });
-+            console.log("WrapperAPI deploying");
-+        }
-+    }
-+});
-+
-+pubsubChannel.on("deployer:startResult", function(data) {
-+    if (data.failed) {
-+        console.log("ERROR: Could not start " + data.name);
-+    } else {
-+        if (data.name == "Micromuon/discovery") {
-+            // Save this data so we can kill discovery itself later on when exiting
-+            discoveryInfo = data;
-+        }
-+        console.log("started: " + data.name);
-+    }
-+});
-+
+        // Deploy next service in sequence
+        if (data.name == "Micromuon/discovery") {
+            pubsubChannel.emit("deployer:deploy", { url: loggingUrl });
+            console.log("Logging deploying");
+        } else if (data.name == "Micromuon/logging") {
+            pubsubChannel.emit("deployer:deploy", { url: healthcheckUrl });
+            console.log("Healthcheck deploying");
+        } else if (data.name == "Micromuon/healthcheck") {
+            pubsubChannel.emit("deployer:deploy", { url: alertingUrl });
+            console.log("Alerting deploying");
+        } else if (data.name == "Micromuon/alerting") {
+            pubsubChannel.emit("deployer:deploy", { url: wrapperUrl });
+            console.log("WrapperAPI deploying");
+        }
+    }
+});
+
+pubsubChannel.on("deployer:startResult", function(data) {
+    if (data.failed) {
+        console.log("ERROR: Could not start " + data.name);
+    } else {
+        if (data.name == "Micromuon/discovery") {
+            // Save this data so we can kill discovery itself later on when exiting
+            discoveryInfo = data;
+        }
+        console.log("started: " + data.name);
+    }
+});
+
 
 var exiting = false;
 function exit() {

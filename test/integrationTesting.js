@@ -14,11 +14,9 @@ var start;
 before(function(done) {
     this.timeout(60000);
     start = require("../start.js");
-    pubsubChannel.on("deployer:started", function(data) {
-        if (data.name == "Micromuon/apiwrapper") {
-            setTimeout(function() {
-                done();
-            }, 1000);
+    pubsubChannel.on("deployer:startResult", function(data) {
+        if (data.name == "Micromuon/alerting") {
+            done();
         }
     });
 });
@@ -27,7 +25,7 @@ describe("integration testing :", function() {
     
     it("starts deployer and core microservices using start up script", function(done) {
         this.timeout(20000);
-        pubsubChannel.on("deployer:started", function(data) {
+        pubsubChannel.on("deployer:startResult", function(data) {
             if (data.name == "Micromuon/apiwrapper") {
                 done();
             }
@@ -47,7 +45,7 @@ describe("integration testing :", function() {
     it("starts a deployed service after startup", function(done) {
         this.timeout(20000);
         pubsubChannel.emit("deployer:start", { name: serviceName });
-        pubsubChannel.on("deployer:started", function(data) {
+        pubsubChannel.on("deployer:startResult", function(data) {
             if (data.name == serviceName) {
                 port = data.port;
                 done(); 
