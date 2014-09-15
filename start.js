@@ -32,8 +32,10 @@ pubsubChannel.on("deployer:deployResult", function(data) {
 
         // Deploy next service in sequence
         if (data.name == "Micromuon/discovery") {
-            pubsubChannel.emit("deployer:deploy", { url: loggingUrl });
-            console.log("Logging deploying");
+            pubsubChannel.on("discovery:bootSuccess", function(data){
+                pubsubChannel.emit("deployer:deploy", { url: loggingUrl });
+                console.log("Logging deploying");
+            });
         } else if (data.name == "Micromuon/logging") {
             pubsubChannel.emit("deployer:deploy", { url: healthcheckUrl });
             console.log("Healthcheck deploying");
