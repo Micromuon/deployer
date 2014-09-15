@@ -76,7 +76,7 @@ function exit() {
                 pubsubChannel.emit("deployer:stop", { name: "Micromuon/logging" });
             } else if (data.name == "Micromuon/logging") {
                 console.log("- Logging stopped");
-                pubsubChannel.emit("deployer:stop", { name: "Micromuon/healthchecker" });
+                pubsubChannel.emit("deployer:stop", { name: "Micromuon/healthcheck" });
             } else if (data.name == "Micromuon/healthcheck") {
                 console.log("- Healthcheck stopped");
                 pubsubChannel.emit("deployer:stop", discoveryInfo);
