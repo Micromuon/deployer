@@ -9,8 +9,6 @@ var git = require("gift"),
     minPort = 16000,
     portfinder = require('portfinder');
 
-//portfinder.basePort = minPort;
-
 pubsubChannel.emit("deployer:bootSuccess", {message: "booted"});
 
 pubsubChannel.on("deployer:deploy", function(data) {
@@ -57,9 +55,11 @@ pubsubChannel.on("deployer:start", function(data) {
         portfinder.getPort({port: minPort}, function(err, usePort){
             
             // Run microservice's startup shell script, passing port number as argument
-            var proc = child_process.spawn("./start.sh", [usePort], { detached: true, cwd: relativePath }); // unable to try and catch any errors on this as errors are thrown async, not by this line
+            // Use detached process
+            // REFERENCE [34] Node "Child Process" Node.js v0.10.31 Manual & Documentation, Available: http://nodejs.org/api/child_process.html
+            var proc = child_process.spawn("./start.sh", [usePort], { detached: true, cwd: relativePath });
             
-            proc.unref(); // Unref child, see http://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options
+            proc.unref();
 
             // Check for first output from shell script on stdout, and emit started message
             // This is so we don't always emit a successful started message even if there is an error (which is handled below)
@@ -94,7 +94,7 @@ pubsubChannel.on("deployer:stop", function(data) {
 });
 
 function kill_children(data) {
-    // From http://krasimirtsonev.com/blog/article/Nodejs-managing-child-processes-starting-stopping-exec-spawn
+    // REFERENCE [35] K. Tsonev "Node.js: managing child processes" Available: http://krasimirtsonev.com/blog/article/Nodejs-managing-child- processes-starting-stopping-exec-spawn
     psTree(data.processId, function(err, children) {
         [data.processId].concat(
             children.map(function(p) {
